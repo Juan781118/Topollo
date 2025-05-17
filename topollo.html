@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Encuesta - Materiales El Topollo</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #f5faff;
+      color: #2c3e50;
+    }
+    .box {
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .has-background-blue {
+      background-color: #3273dc;
+      color: white;
+    }
+    .icon-label {
+      display: flex;
+      align-items: center;
+    }
+    .icon-label i {
+      margin-right: 8px;
+      color: #3273dc;
+    }
+  </style>
+</head>
+<body>
+  <section class="section">
+    <div class="container">
+      <div class="box">
+        <h1 class="title has-text-centered has-text-primary"><i class="fas fa-tools"></i> Encuesta de Servicio</h1>
+        <p class="subtitle has-text-centered">Ayúdanos a mejorar en <strong>Materiales El Topollo</strong></p>
+
+        <form id="encuestaForm">
+          <div class="field">
+            <label class="label icon-label"><i class="fas fa-user-check"></i>¿Cómo calificaría la atención del personal?</label>
+            <div class="control">
+              <div class="select is-fullwidth">
+                <select name="atencion" required>
+                  <option value="">Seleccione una opción</option>
+                  <option>Excelente</option>
+                  <option>Buena</option>
+                  <option>Regular</option>
+                  <option>Mala</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label icon-label"><i class="fas fa-clock"></i>¿Fue rápida la atención?</label>
+            <div class="control">
+              <div class="select is-fullwidth">
+                <select name="rapidez" required>
+                  <option value="">Seleccione una opción</option>
+                  <option>Sí, muy rápida</option>
+                  <option>Aceptable</option>
+                  <option>Lenta</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label icon-label"><i class="fas fa-box"></i>¿Encontró fácilmente los productos?</label>
+            <div class="control">
+              <div class="select is-fullwidth">
+                <select name="productos" required>
+                  <option value="">Seleccione una opción</option>
+                  <option>Sí</option>
+                  <option>Algunos</option>
+                  <option>No</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label icon-label"><i class="fas fa-thumbs-up"></i>¿Recomendaría esta ferretería?</label>
+            <div class="control">
+              <div class="select is-fullwidth">
+                <select name="recomendacion" required>
+                  <option value="">Seleccione una opción</option>
+                  <option>Sí</option>
+                  <option>Tal vez</option>
+                  <option>No</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label icon-label"><i class="fas fa-comment-dots"></i>¿Algún comentario adicional?</label>
+            <div class="control">
+              <textarea name="comentarios" class="textarea" placeholder="Escriba su comentario aquí..."></textarea>
+            </div>
+          </div>
+
+          <div class="field is-grouped is-justify-content-center">
+            <div class="control">
+              <button class="button is-primary" type="submit"><i class="fas fa-paper-plane"></i> Enviar</button>
+            </div>
+          </div>
+
+          <div id="mensajeExito" class="notification is-success is-light has-text-centered mt-4" style="display: none;">
+            ✅ ¡Gracias por tu opinión!<br>⏳ Guardando respuestas...<br>🔧 Seguiremos mejorando.
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const form = document.getElementById("encuestaForm");
+    const mensaje = document.getElementById("mensajeExito");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const data = new FormData(form);
+
+      fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID_HERE/exec", {
+        method: "POST",
+        body: data
+      })
+      .then(res => {
+        if (res.ok) {
+          mensaje.style.display = "block";
+          form.reset();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          setTimeout(() => mensaje.style.display = "none", 5000);
+        } else {
+          alert("Error al enviar la encuesta.");
+        }
+      })
+      .catch(() => alert("Error de conexión."));
+    });
+  </script>
+</body>
+</html>
